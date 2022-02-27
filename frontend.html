@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    
+    <link rel="stylesheet" href="https://cdn.rawgit.com/jonthornton/jquery-timepicker/3e0b283a/jquery.timepicker.min.css">
+    
+    <style>
+      label {
+        position: relative;
+        display: inline-block;
+        width: 200px;
+        height: 50px;
+        border: 2px solid #ccc;
+        border-radius: 15px;
+      }
+      input[type="text"] {
+        position: relative;
+        padding: 0 10px;
+        width: 200px;
+        height: 80px;
+        border: 0;
+        background: transparent;
+        box-sizing: border-box;
+        font-size: 60px;
+        color: #333333;
+        margin-top: 25px;
+        margin-bottom: 40px;
+      }
+      h1{
+        font-size:80px;
+        color: #ffffff;
+      }
+
+      h2{
+        font-size:30px;
+        display:inline;
+        text-align: center;
+        /* color: #ff0000;
+        background-color: #ffffff; */
+      }
+
+      h3{
+        font-size:70px;
+        /* color: #ff0000;
+        background-color: #ffffff; */
+      }
+      h4{
+        font-size:40px;
+        /* color: #ff0000;
+        background-color: #ffffff; */
+      }
+
+      li{
+        font-size:30px;
+        margin-left: 40px;
+      }
+
+      button{ 
+        width: 100%;
+        max-width: 600px; 
+        padding: 15px 10px; 
+        display: inline-block; 
+        text-align: center; 
+        letter-spacing: 0.1em; 
+        color: #fff; 
+        background-color: #ed576c; 
+        border-radius: 30px;
+        font-size: 80px;
+        font-weight: bold;
+      }
+
+      label{
+        font-size: 50px;
+        display: inline-block;
+        /* white-space: nowrap; */
+        /* float: left; */
+        width: 70%;
+        border:solid 0px;
+        margin-left: 40px;
+      }
+
+      input[type=checkbox] {
+        -ms-transform: scale(3, 3);
+        -webkit-transform: scale(3, 3);
+        transform: scale(3, 3);
+        margin-left: 40px;
+        position: relative;
+        top: -13px;
+      }
+
+      span{
+        color: #ff0000;
+      }
+      
+      .button_wrapper{
+        text-align: center;
+      }
+
+      .title_wrapper{
+        background-color: #404080;
+      }
+      .second_wrapper{
+        /* text-align: right; */
+      }
+      .point-box {
+        position: relative;
+        border: 2px solid #000000; /* 枠の太さ・種類・色 */
+        border-radius: 4px; /* 枠の丸み */
+        margin: 1.8em 1em; /* 枠外の余白 */
+        padding: 20px 0px;
+        top: 30px;
+      }
+
+      .point-title {
+        position: absolute;
+        padding: 0 0.5em;
+        left: 20px;
+        top: -40px; /* タイトルの位置を調整 */
+        color: #555555; /* タイトルの文字色 */
+        font-weight: bold;
+        font-size:50px; /* タイトルの文字サイズ */
+        background-color: #ffffff;
+      }
+
+      *タブ切り替え全体のスタイル*/
+      .tabs {
+        margin-top: 50px;
+        padding-bottom: 40px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        margin: 0 auto;}
+
+      /*タブのスタイル*/
+      .tab_item {
+        width: calc(88%/2);
+        height: 100px;
+        /* border-bottom: 3px solid #5ab4bd; */
+        background-color: #d9d9d9;
+        line-height: 100px;
+        font-size: 60px;
+        text-align: center;
+        color: #565656;
+        display: block;
+        float: left;
+        text-align: center;
+        font-weight: bold;
+        transition: all 0.2s ease;
+      }
+      .tab_item:hover {
+        opacity: 0.75;
+      }
+
+      /*ラジオボタンを全て消す*/
+      input[name="tab_item"] {
+        display: none;
+      }
+
+      /*タブ切り替えの中身のスタイル*/
+      .tab_content {
+        display: none;
+        padding: 10px 10px 0;
+        clear: both;
+        overflow: hidden;
+      }
+
+
+      /*選択されているタブのコンテンツのみを表示*/
+      #all:checked ~ #all_content,
+      #programming:checked ~ #programming_content,
+      #design:checked ~ #design_content {
+        display: block;
+      }
+
+      /*選択されているタブのスタイルを変える*/
+      .tabs input:checked + .tab_item {
+        background-color: #5ab4bd;
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.js" integrity="sha256-tcqPYPyxU+Fsv5sVdvnxLYJ7Jq9wWpi4twZbtZ0ubY8=" crossorigin="anonymous"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://cdn.rawgit.com/jonthornton/jquery-timepicker/3e0b283a/jquery.timepicker.min.js"></script>
+    <script>
+
+      let tmpshiftList = String( <?= shifts ?> )
+      let noneTmpshiftList = String( <?= noneshifts ?> )
+      let nextWeek = String( <?= nextDate ?> )
+      let myname = String( <?= myName ?> )
+      let shiftList = tmpshiftList.split(',');
+      let noneShiftList = noneTmpshiftList.split(',');
+
+      // 水曜12:00〜木曜14:59だったら申請不可
+      let nnowTime = new Date()
+      let yyoubi = nnowTime.getDay()
+      let nnowHour = nnowTime.getHours()
+      if(yyoubi==3 && 12<=nnowHour && nnowHour<=23){
+        bootbox.alert("募集は締め切りました", function (){window.location.reload()})
+      }else if(yyoubi==4 && 0<=nnowHour && nnowHour<14){
+        bootbox.alert("募集は締め切りました", function (){window.location.reload()})
+      }
+
+      // 欠勤時間のテキストボックスを設定する関数
+      function create_textbox() {
+        var main = document.getElementById('main_div');
+        if(!tmpshiftList.length){
+          document.getElementById("bt").style.display ="none";
+
+          
+          var divs = document.createElement('div');
+          divs.innerHTML = "<h2>入っているシフトはありません</h2>"
+          main_div.appendChild(divs);
+          return;
+        }
+        for (var i = 0; i < shiftList.length/5; i++) {
+          var startId = "start" + i;
+          var endId = "end" + i;
+          var checkboxId = "checkbox" + i;
+
+          // チェックボックス
+          var tmpcheckbox = document.createElement('input');
+          var label = document.createElement('label');
+          var br = document.createElement('br');
+          var sentence = shiftList[5*i+1] +"： "+shiftList[5*i+2]+"〜"+shiftList[5*i+3]+ " (" +shiftList[5*i+4] + ")"
+          tmpcheckbox.setAttribute("id", checkboxId);
+          tmpcheckbox.setAttribute("type", "checkbox");
+          label.setAttribute("for", checkboxId)
+          label.textContent = sentence
+          main_div.appendChild(br);
+          main_div.appendChild(tmpcheckbox);
+          main_div.appendChild(label);
+
+
+          // 改行
+          var divs = document.createElement('div');
+          divs.innerHTML = "<br>"
+          main_div.appendChild(divs);
+
+
+          // シフト概要
+          // var tmpText = document.createElement('div');
+          // tmpText.innerHTML = "<h2>"+ shiftList[5*i+1] +"：　"+shiftList[5*i+2]+"〜"+shiftList[5*i+3]+ " (" +shiftList[5*i+4] +")</h2>";
+          // main_div.appendChild(tmpText);
+
+          // 開始時間
+          var elem = document.createElement('input');
+          elem.setAttribute("id", startId);
+          elem.setAttribute("type", "text");
+          elem.setAttribute("value", shiftList[5*i+2]);
+          elem.setAttribute("inputmode", "none");
+          
+          // elem.setAttribute("min", shiftList[5*i+2]);
+          // elem.setAttribute("max", shiftList[5*i+3]);
+          // elem.setAttribute("step", "1800");
+          main_div.appendChild(elem);
+
+          var elem = document.createElement('h2');
+          elem.textContent = "〜"
+          main_div.appendChild(elem);
+
+          // 終了時間
+          var elem = document.createElement('input');
+          elem.setAttribute("id", endId);
+          elem.setAttribute("type", "text");
+          elem.setAttribute("value", shiftList[5*i+3]);
+          elem.setAttribute("inputmode", "none");
+          // elem.setAttribute("max", shiftList[5*i+3]);
+          // elem.setAttribute("step", "1800");
+          main_div.appendChild(elem);
+          $('#'+startId).timepicker({
+            'minTime': shiftList[5*i+2],
+            'maxTime': shiftList[5*i+3],
+            'step': 30,
+            'disableTextInput':true,
+            'timeFormat': 'H:i',
+          });
+          $('#'+endId).timepicker({
+            'minTime': shiftList[5*i+2],
+            'maxTime': shiftList[5*i+3],
+            'step': 30,
+            'timeFormat': 'H:i',
+          });
+          $('#'+endId).keydown(false);
+
+
+        }
+      }
+
+
+      // 急募時間のテキストボックスを設定する関数
+      function create_noneTextbox() {
+        var main = document.getElementById('nonemain_div');
+        if(!noneTmpshiftList.length){
+          document.getElementById("nonebt").style.display ="none";
+          var divs = document.createElement('div');
+          divs.innerHTML = "<h2>急募中のシフトはありません<br>急募チャンネルに投稿されているシフトを申請しに来たならもう埋まったよ</h2>"
+          nonemain_div.appendChild(divs);
+          return;
+        }
+        for (var i = 0; i < noneShiftList.length/6; i++) {
+          var startId = "nonestart" + i;
+          var endId = "noneend" + i;
+          var checkboxId = "nonecheckbox" + i;
+
+          // チェックボックス
+          var tmpcheckbox = document.createElement('input');
+          var label = document.createElement('label');
+          var br = document.createElement('br');
+          var sentence = noneShiftList[6*i+1] +"： "+noneShiftList[6*i+2]+"〜"+noneShiftList[6*i+3]+ " (" +noneShiftList[6*i+4] + ")"
+          tmpcheckbox.setAttribute("id", checkboxId);
+          tmpcheckbox.setAttribute("type", "checkbox");
+          label.setAttribute("for", checkboxId)
+          label.textContent = sentence
+          nonemain_div.appendChild(br);
+          nonemain_div.appendChild(tmpcheckbox);
+          nonemain_div.appendChild(label);
+
+          // 改行
+          var divs = document.createElement('div');
+          divs.innerHTML = "<br>"
+          nonemain_div.appendChild(divs);
+
+          // 開始時間
+          var elem = document.createElement('input');
+          elem.setAttribute("id", startId);
+          elem.setAttribute("type", "text");
+          elem.setAttribute("value", noneShiftList[6*i+2]);
+          elem.setAttribute("inputmode", "none");
+          
+          // elem.setAttribute("min", noneShiftList[6*i+2]);
+          // elem.setAttribute("max", noneShiftList[6*i+3]);
+          // elem.setAttribute("step", "1800");
+          nonemain_div.appendChild(elem);
+
+          var elem = document.createElement('h2');
+          elem.textContent = "〜"
+          nonemain_div.appendChild(elem);
+
+          // 終了時間
+          var elem = document.createElement('input');
+          elem.setAttribute("id", endId);
+          elem.setAttribute("type", "text");
+          elem.setAttribute("value", noneShiftList[6*i+3]);
+          elem.setAttribute("inputmode", "none");
+          // elem.setAttribute("max", noneShiftList[6*i+3]);
+          // elem.setAttribute("step", "1800");
+          nonemain_div.appendChild(elem);
+          $('#'+startId).timepicker({
+            'minTime': noneShiftList[6*i+2],
+            'maxTime': noneShiftList[6*i+3],
+            'step': 30,
+            'disableTextInput':true,
+            'timeFormat': 'H:i',
+          });
+          $('#'+endId).timepicker({
+            'minTime': noneShiftList[6*i+2],
+            'maxTime': noneShiftList[6*i+3],
+            'step': 30,
+            'timeFormat': 'H:i',
+          });
+          $('#'+endId).keydown(false);
+
+
+        }
+      }
+
+
+      // 保存ボタンが押された時に実行される関数
+      function saveButtonTapped(){
+        function stringToDate(stringDate){
+          let value_today = new Date();
+          // stringDateを「:」区切りで分ける。(時間と分に分ける)
+          let hour_mins = stringDate.split(":");
+          // 時間 と 分 を変数に代入
+          let hour = hour_mins[0];
+          let mins = hour_mins[1];
+          // value_todayに入力された時間を反映
+          value_today.setHours(Number(hour));
+          value_today.setMinutes(Number(mins));
+          return value_today;
+        }
+
+        // 水曜12:00〜木曜14:59だったら申請不可
+        let nowTime = new Date()
+        let youbi = nowTime.getDay()
+        let nowHour = nowTime.getHours()
+        if(youbi==3 && 12<=nowHour && nnowHour<=13){
+          bootbox.alert("募集は締め切りました")
+          return;
+        }else if(youbi==4 && 0<=nowHour && nnowHour<14){
+          bootbox.alert("募集は締め切りました")
+          return;
+        }
+
+        // 申請時間帯があっているか確認
+        var restShiftList = []
+        for(var i = 0; i < shiftList.length/5; i++){
+          let checkboxId = "checkbox" + i;
+          let bool = document.getElementById(checkboxId).checked;
+          if(bool){
+            var startId = "start" + i;
+            var endId = "end" + i;
+            startTimeString = document.getElementById(startId).value;
+            endTimeString = document.getElementById(endId).value;
+            startTime = stringToDate(startTimeString);
+            endTime = stringToDate(endTimeString);
+            if(startTime >= endTime){
+              bootbox.alert("開始時間は終了時間の最小30分前を選択してください");
+              return;
+            }
+            restShiftList.push([shiftList[5*i+1], shiftList[5*i+4], startTimeString, endTimeString]);
+          }
+        }
+        if(!restShiftList.length){
+          bootbox.alert("チェックされた項目がありません");
+          return;
+        }
+        google.script.run.withSuccessHandler(bootbox.alert("正常に申請されました<br>申請内容はメールに送信しました<br>再度申請したい場合は「ok」ボタンをタップ後表示される白いページを再読み込みしてください", function (){window.location.reload()})).doSend(restShiftList);
+        }
+
+      // 急募保存ボタンが押された時に実行される関数
+      function nonesaveButtonTapped(){
+        function callback(data){
+          if(data=='正常'){
+            bootbox.alert('正常に申請されました\nIMAメールに送信された申請内容を確認してください', function (){window.location.reload();})
+          }else if(data=='異常'){
+            bootbox.alert('既に埋まってしまったシフトが含まれています\nこの後表示される白い画面をリロードして、急募内容を確認の上再度申請してください', function (){window.location.reload();})
+          }else if(data=='更新'){
+            bootbox.alert('問題が起きました\nこの後表示される白い画面をリロードして、再度申請してください', function (){window.location.reload();})
+          }
+        }
+        function stringToDate(stringDate){
+          let value_today = new Date();
+          // stringDateを「:」区切りで分ける。(時間と分に分ける)
+          let hour_mins = stringDate.split(":");
+          // 時間 と 分 を変数に代入
+          let hour = hour_mins[0];
+          let mins = hour_mins[1];
+          // value_todayに入力された時間を反映
+          value_today.setHours(Number(hour));
+          value_today.setMinutes(Number(mins));
+          return value_today;
+        }
+
+        // 水曜12:00〜木曜14:59だったら申請不可
+        let nowTime = new Date()
+        let youbi = nowTime.getDay()
+        let nowHour = nowTime.getHours()
+        if(youbi==3 && 12<=nowHour && nnowHour<=23){
+          bootbox.alert("募集は締め切りました")
+          return;
+        }else if(youbi==4 && 0<=nowHour && nnowHour<14){
+          bootbox.alert("募集は締め切りました")
+          return;
+        }
+
+        var myShifList = []
+        // 自分のシフトの配列を作成
+        for(var i = 0; i < shiftList.length/5; i++){
+          myShifList.push([shiftList[5*i+1], shiftList[5*i+4], shiftList[5*i+2], shiftList[5*i+3]]);
+        }
+
+        // 申請時間帯があっているか確認
+        var nonerestShiftList = []
+        for(var i = 0; i < noneShiftList.length/6; i++){
+          let checkboxId = "nonecheckbox" + i;
+          let bool = document.getElementById(checkboxId).checked;
+          if(bool){
+            var startId = "nonestart" + i;
+            var endId = "noneend" + i;
+            startTimeString = document.getElementById(startId).value;
+            endTimeString = document.getElementById(endId).value;
+            startTime = stringToDate(startTimeString);
+            endTime = stringToDate(endTimeString);
+            if(startTime >= endTime){
+              bootbox.alert("開始時間は終了時間の最小30分前を選択してください");
+              return;
+            }
+            nonerestShiftList.push([noneShiftList[6*i+1], noneShiftList[6*i+4], startTimeString, endTimeString, noneShiftList[6*i+5]]);
+            myShifList.push([noneShiftList[6*i+1], noneShiftList[6*i+4], startTimeString, endTimeString]);
+          }
+        }
+
+        if(!nonerestShiftList.length){
+          bootbox.alert("チェックされた項目がありません");
+          return;
+        }
+        var booltf = checkSHIFT(myShifList)
+        if(booltf == 1){
+          document.getElementById("noneButton").disabled = true;
+          noneButton.style.backgroundColor = "gray";
+          document.getElementById("noneButton").innerText="読み込み中...";
+          google.script.run.withSuccessHandler(function(data){callback(data);}).doNoneSend(nonerestShiftList);
+          // google.script.run.withSuccessHandler(bootbox.alert("正常に申請されました<br>申請内容はメールに送信しました<br>再度申請したい場合は「ok」ボタンをタップ後表示される白いページを再読み込みしてください", function (){window.location.reload()})).doNoneSend(nonerestShiftList);
+          return;
+        }
+      }
+
+      // 急募申請されたシフトをチェック
+      function checkSHIFT(personalShiftList){
+        // レギュレーション
+        MINUTES_UNIT_PER_WORK = 30;
+        MINUTES_UNIT_PER_REST = 60;
+        MINUTES_MAX_PER_WORK  = 60 * 4.5;
+        MINUTES_MAX_PER_DAY   = 60 * 7;
+        MINUTES_MAX_PER_WEEK  = 60 * 24;
+
+        var _data = [];// [日付, 開始日時, 終了日時, 勤務時間]
+
+        for(var i=0; row = personalShiftList[i]; i++){
+          if(row[0]=="月"){
+            var _startDate = "2021/10/11"
+            var _endDate = "2021/10/11"
+          }else if(row[0]=="火"){
+            var _startDate = "2021/10/12"
+            var _endDate = "2021/10/12"
+          }else if(row[0]=="水"){
+            var _startDate = "2021/10/13"
+            var _endDate = "2021/10/13"
+          }else if(row[0]=="木"){
+            var _startDate = "2021/10/14"
+            var _endDate = "2021/10/14"
+          }else if(row[0]=="金"){
+            var _startDate = "2021/10/15"
+            var _endDate = "2021/10/15"
+          }
+          var _startTime = row[2]
+          var _start = new Date(_startDate + " " + _startTime);
+          var _endTime = row[3]
+          var _end = new Date(_endDate + " " + _endTime);
+          var _work_minutes = (_end.getTime() - _start.getTime()) / (60*1000)
+
+          // シフトデータを格納
+          _data.push([_startDate, _start, _end, _work_minutes]);
+        }
+
+        // 申請日付時間と現在シフトと重複があるか確認
+        for(var i=0; i<_data.length-1; i++){
+          if(_data[i][1] < _data[_data.length-1][2] && _data[i][2] > _data[_data.length-1][1]){
+            bootbox.alert("エラー：シフトに重複があります");
+            return 0; 
+          }
+        }
+
+        // シフトデータを開始時刻順にソート
+        _data.sort(function(a, b){
+          if (a[1] < b[1]) return -1;
+          if (a[1] < b[1]) return 1;
+          return 0;
+        });
+
+        var _result = [];
+        var _tmp_shift = undefined;
+        for(var i=0; i<_data.length; i++){
+          var _before = _data[i];
+          var _after  = _data[i + 1];
+          if (_after != undefined && _before[2].getTime() == _after[1].getTime()){  // 勤務終了日時と次の勤務開始日時が等しい
+            if(_tmp_shift == undefined){
+              _tmp_shift = _before.slice();
+            }
+            _tmp_shift[2] = _after[2];  // 勤務終了日時は次の勤務終了日時
+            _tmp_shift[3] += _after[3]; // 勤務時間を合算
+          } else {
+            if(_tmp_shift == undefined){
+              _result.push(_before);
+            } else {
+              _result.push(_tmp_shift);
+            }
+            _tmp_shift = undefined;
+          }
+        }
+        _data = _result;
+        // レギュレーションチェック
+        var _total_work_minutes_per_day  = 0;
+        var _total_work_minutes_per_week = 0;
+        for(var i=0; i<_data.length; i++){
+          var _shift_info = _data[i];
+          _total_work_minutes_per_day  += _shift_info[3];
+          _total_work_minutes_per_week += _shift_info[3];
+          // CHECK : MINUTES_UNIT_PER_WORK
+          if ((_shift_info[3] % MINUTES_UNIT_PER_WORK) != 0){
+            bootbox.alert("エラー：勤務時間単位が30分になっていません");
+            return 0; 
+          }
+
+          // CHECK : MINUTES_MAX_PER_WORK
+          if(_shift_info[3] > MINUTES_MAX_PER_WORK){
+            bootbox.alert("エラー：連続勤務時間が4.5時間を超えています");
+            return 0;
+          }
+
+          // 次のシフトが別日だったら，1日あたりのチェック
+          if (_data[i+1] == undefined || _shift_info[0] != _data[i+1][0]){
+            // CHECK : MINUTES_MAX_PER_DAY
+            if(_total_work_minutes_per_day > MINUTES_MAX_PER_DAY){
+              bootbox.alert("エラー：1日の勤務時間が7時間を超えています");
+              return 0;
+            }
+            _total_work_minutes_per_day  = 0;
+          } else {
+            // 次のシフトが同一日なので，休み時間の長さチェック（一概にNGとも言えないのでWARNING）
+            var _rest_minutes = (_data[i+1][1].getTime() - _shift_info[2].getTime()) / (60*1000);
+            if(_total_work_minutes_per_day + _data[i+1][3] > MINUTES_MAX_PER_WORK && _rest_minutes < MINUTES_UNIT_PER_REST){
+              bootbox.alert("エラー：勤務時間が4.5hを超える場合は間に1時間の休憩を取る必要があります");
+              return 0;
+            }
+          }
+        }
+        return 1;
+      }
+
+      function yasumiNitice(){
+        var main = document.getElementById('yasumi_div');
+        if(yasumi == 'なし'){
+          yasumi = ''
+        }
+        var divs = document.createElement('div');
+        divs.innerHTML = "<h2>"+yasumi+"</h2>"
+        yasumi_div.appendChild(divs);
+      }
+        
+
+    </script>
+
+    <div class="title_wrapper"><h1>&nbsp;シフト申請システム</h1></div>
+    <h3 style="display:inline;">&nbsp;<?= nextDate ?></h3>
+    <h2 style="display:inline;float: right;color:#808080;">ログイン：<?= myName ?>さん&nbsp;</h2>
+    <h4>&nbsp;<?= yyasumi ?></h4>
+    <br><br>
+    
+
+
+  <div class="tabs">
+    <input id="all" type="radio" name="tab_item" checked>
+    <label class="tab_item" for="all">キャンセル申請</label>
+    <input id="programming" type="radio" name="tab_item">
+    <label class="tab_item" for="programming">急募申請</label>
+    <div class="tab_content" id="all_content">
+        <div class="point-box">
+          <span class="point-title">申請方法</span>
+            <ol><br>
+              <li>休みたい時間帯のあるシフトにチェックを入れてください</li>
+              <li><span>休みたい時間帯</span>を選択してください<br>（時刻をタップするとプルダウンが表示されます）</li>
+              <li>入力内容を確認の上「送信」ボタンを押してください</li>
+              <li>自分のメールに届く申請内容を確認してください</li>
+            </ol>
+        </div>
+        <br><br>
+        <div id="main_div"></div>
+        <br>
+        <div class="button_wrapper" id="bt"> <button type="save" class="qqq" onclick="saveButtonTapped()">送信</button> </div>
+
+        <script>create_textbox();</script>
+    </div>
+
+    <div class="tab_content" id="programming_content">
+        <div class="point-box">
+          <span class="point-title">申請方法</span>
+            <ol><br>
+              <li>入りたいシフトにチェックを入れてください</li>
+              <li><span>入りたい時間帯</span>を選択してください<br>（時刻をタップするとプルダウンが表示されます）</li>
+              <li>入力内容を確認の上「送信」ボタンを押してください</li>
+              <li>自分のメールに届く申請内容を確認してください</li>
+            </ol>
+        </div>
+        <br><br>
+        <script>create_noneTextbox();</script>
+        <div id="nonemain_div"></div>
+        <br>
+        <div class="button_wrapper" id="nonebt"> <button type="save" class="qqq" id="noneButton" onclick="nonesaveButtonTapped()">送信</button> </div>
+
+        <script>create_noneTextbox();</script>
+    </div>
+  </div>
+    
+  </body>
+
+</html>
