@@ -10,4 +10,4 @@ Google Apps Scriptを使用して環境を構築するため、サーバーレ�
 ## 使い方
 ![part1](https://user-images.githubusercontent.com/73646531/156379083-35532651-44fb-46df-ac58-62308704a206.png)
 
-![part2](https://user-images.githubusercontent.com/73646531/156379110-22087998-f36e-4947-a2e8-ce4311afe421.png)
+![part2](https://user-images.githubusercontent.com/73646531/156379576-c0d57c4a-1db9-4245-bd3e-d342ed87eca3.png)
