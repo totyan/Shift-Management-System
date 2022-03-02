@@ -10,6 +10,4 @@ Google Apps Scriptを使用して環境を構築するため、サーバーレ�
 ## 使い方
 ![part1](https://user-images.githubusercontent.com/73646531/156379899-88278ffd-f8fd-4e65-b881-e92293839446.png)
 ![part2](https://user-images.githubusercontent.com/73646531/156379915-6f9edaf2-77a5-443d-9425-5f860d9dd287.png)
-[part1.pdf](https://github.com/totyan/Shift-Management-System/files/8170154/part1.pdf)
-[part2.pdf](https://github.com/totyan/Shift-Management-System/files/8170156/part2.pdf)
 
